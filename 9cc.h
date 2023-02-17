@@ -9,6 +9,13 @@ typedef struct Token Token;
 typedef struct Node Node;
 
 typedef enum {
+    TK_RESERVED,
+    TK_IDENT,
+    TK_NUM,
+    TK_EOF,
+} TokenKind;
+
+typedef enum {
     ND_ADD,
     ND_SUB,
     ND_MUL,
@@ -19,13 +26,6 @@ typedef enum {
     ND_LE,
     ND_NUM,
 } NodeKind;
-
-typedef enum {
-    TK_RESERVED,
-    TK_NUM,
-    TK_EOF,
-} TokenKind;
-
 
 struct Node {
     NodeKind kind;

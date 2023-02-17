@@ -1,6 +1,5 @@
 #include "9cc.h"
 
-
 Node *new_node(NodeKind kind, Node *lhs, Node *rhs) {
     Node *node = calloc(1, sizeof(Node));
     node->kind = kind;
