@@ -1,8 +1,5 @@
 #include "9cc.h"
 
-// char *user_input;
-// Token *token;
-
 void error(char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
@@ -22,33 +19,6 @@ void error_at(char *loc, char *fmt, ...) {
     fprintf(stderr, fmt, ap);
     fprintf(stderr,"\n");
     exit(1);
-}
-
-bool consume(char *op) {
-    if (token->kind != TK_RESERVED || strlen(op) != token->len ||
-        memcmp(token->str, op, token->len))
-        return false;
-    token = token->next;
-    return true;
-}
-
-void expect(char *op) {
-    if (token->kind != TK_RESERVED || strlen(op) != token->len ||
-        memcmp(token->str, op, token->len))
-        error_at(token->str, "expected \"%s\"",op);
-    token = token->next;
-}
-
-int expect_number() {
-    if (token->kind != TK_NUM)
-        error_at(token->str, "expected a number");
-    int val = token->val;
-    token = token->next;
-    return val;
-}
-
-bool at_eof() {
-    return token->kind == TK_EOF;
 }
 
 Token *new_token(TokenKind kind, Token *cur, char *str, int len) {
@@ -83,7 +53,7 @@ Token *tokenize() {
                 continue;
             }
 
-        if (strchr("+-*/()<>", *p)) {
+        if (strchr("+-*/()<>=", *p)) {
             cur = new_token(TK_RESERVED, cur, p++, 1);
             continue;
         }
@@ -98,7 +68,6 @@ Token *tokenize() {
 
         if ('a' <= *p && *p <= 'z') {
             cur = new_token(TK_IDENT, cur, p++, 1);
-            // cur->len = 1;
             continue;
         }
 

@@ -20,6 +20,8 @@ typedef enum {
     ND_SUB,
     ND_MUL,
     ND_DIV,
+    ND_ASSIGN,
+    ND_LVAR,
     ND_EQ,
     ND_NE,
     ND_LT,
@@ -32,6 +34,7 @@ struct Node {
     Node *lhs;
     Node *rhs;
     int val;
+    int offset;
 };
 
 struct Token {
@@ -44,10 +47,10 @@ struct Token {
 
 extern char *user_input;
 extern Token *token;
+extern Node *code[100];
 
-bool consume(char *op);
-void expect(char *op);
-int expect_number();
+void error(char *fmt, ...);
+void error_at(char *loc, char *fmt, ...);
 Token *tokenize();
 
 void gen(Node *node);
